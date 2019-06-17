@@ -17,7 +17,7 @@
 .global _start
 	_start:	
 		movi r13, 1
-		movi r14, 80 		# Muda o LCD para modo WRITE, que permite escrever na memoria e alterar os dados
+		movi r14, 80 		# Muda a posição do LCD a ser editada.
 		custom 0, r15, r13, r14
 		
         	br menu1
