@@ -15,15 +15,17 @@
 	
 .text
 .global _start
-	_start:
+	_start:	
+		movi r13, 1
+		movi r14, 80 		# Muda o LCD para modo WRITE, que permite escrever na memoria e alterar os dados
+		custom 0, r15, r13, r14
+		
         	br menu1
 
 	menu1:
-		# Lógica de acender o LED específico do estado
-		movia r12, led_addr   # Salva o endereço da variável led_addr no registrador R12
-		ldwio r12, 0(r12)     # Lê o conteúdo do endereço de memória salvo (encontrando o endereço do GPIO do LED)
- 		movi r9, 8            # Adiciona ao R9 o valor correspondente à combinação de LEDs que deverá ser acesa
-		stw r9, 0(r12)        # Escreve o valor de R9 na posição de memória do LED
+		movi r13, 1
+		movi r14, 31		# Altera a primeira posicao para o valor do menu respectivo
+		custom 0, r15, r13, r14 
 	
 		# Lógica de verificar se o botão foi pressionado (Select) [Serve para todos os botões]
         	movia r12, sel_addr   # Salva o endereço da variável do botão (nesse caso sel_addr) no registrador R12
@@ -50,11 +52,9 @@
         	br menu1
 
 	menu2:
-		# Lógica de acender o LED específico do estado	
-		movia r12, led_addr
-		ldwio r12, 0(r12)
-		movi r9, 4
-		stw r9, 0(r12)
+		movi r13, 1
+		movi r14, 32		# Altera a primeira posicao para o valor do menu respectivo
+		custom 0, r15, r13, r14 
 		
 		# Lógica de verificar se o botão foi pressionado (Select)
         	movia r12, sel_addr
@@ -81,11 +81,10 @@
         	br menu2
         	
         menu3:
-		# Lógica de acender o LED específico do estado
-		movia r12, led_addr
-		ldwio r12, 0(r12)
-		movi r9, 12
-		stw r9, 0(r12)
+		movi r13, 1
+		movi r14, 33		# Altera a primeira posicao para o valor do menu respectivo
+		custom 0, r15, r13, r14 
+
 
 		# Lógica de verificar se o botão foi pressionado (Select)		
         	movia r12, sel_addr
@@ -112,11 +111,9 @@
         	br menu3
         	
         menu4:
-		# Lógica de acender o LED específico do estado
-		movia r12, led_addr
-		ldwio r12, 0(r12)
-		movi r9, 2
-		stw r9, 0(r12)
+		movi r13, 1
+		movi r14, 34		# Altera a primeira posicao para o valor do menu respectivo
+		custom 0, r15, r13, r14 
 
 		# Lógica de verificar se o botão foi pressionado (Select)        
         	movia r12, sel_addr
@@ -143,11 +140,9 @@
         	br menu4
         	
         menu5:
-		# Lógica de acender o LED específico do estado
-		movia r12, led_addr
-		ldwio r12, 0(r12)
-		movi r9, 10
-		stw r9, 0(r12)
+		movi r13, 1
+		movi r14, 35		# Altera a primeira posicao para o valor do menu respectivo
+		custom 0, r15, r13, r14 
 		
 		# Lógica de verificar se o botão foi pressionado (Select)
         	movia r12, sel_addr
@@ -174,6 +169,13 @@
         	br menu5
 
 	sel1:
+	
+		# Lógica de acender o LED específico do estado
+		movia r12, led_addr   # Salva o endereço da variável led_addr no registrador R12
+		ldwio r12, 0(r12)     # Lê o conteúdo do endereço de memória salvo (encontrando o endereço do GPIO do LED)
+ 		movi r9, 8            # Adiciona ao R9 o valor correspondente à combinação de LEDs que deverá ser acesa
+		stw r9, 0(r12)        # Escreve o valor de R9 na posição de memória do LED
+		
 		# Lógica de verificar se o botão foi pressionado (Back)
         	movia r12, back_addr
         	ldwio r12, 0(r12)
@@ -182,9 +184,17 @@
         	beq r12, r11, menu1
 
 		# Volta para o começo do estado caso nada tenha sido pressionado
+		movi r9, 0
+		stw r9, 0(r12) 
         	br sel1
 
 	sel2:
+		# Lógica de acender o LED específico do estado	
+		movia r12, led_addr
+		ldwio r12, 0(r12)
+		movi r9, 4
+		stw r9, 0(r12)
+		
 		# Lógica de verificar se o botão foi pressionado (Back)
         	movia r12, back_addr
         	ldwio r12, 0(r12)
@@ -193,10 +203,18 @@
         	beq r12, r11, menu2
 
 		# Volta para o começo do estado caso nada tenha sido pressionado
+		movi r9, 0
+		stw r9, 0(r12) 
         	br sel2
         	
         sel3:
-       		# Lógica de verificar se o botão foi pressionado (Back)
+       		# Lógica de acender o LED específico do estado
+		movia r12, led_addr
+		ldwio r12, 0(r12)
+		movi r9, 12
+		stw r9, 0(r12)
+		
+		# Lógica de verificar se o botão foi pressionado (Back)
         	movia r12, back_addr
         	ldwio r12, 0(r12)
         	ldwio r12, 0(r12)
@@ -204,9 +222,17 @@
         	beq r12, r11, menu3
 
 		# Volta para o começo do estado caso nada tenha sido pressionado
+		movi r9, 0
+		stw r9, 0(r12) 
         	br sel3
         	
         sel4:
+		# Lógica de acender o LED específico do estado
+		movia r12, led_addr
+		ldwio r12, 0(r12)
+		movi r9, 2
+		stw r9, 0(r12)
+		
 		# Lógica de verificar se o botão foi pressionado (Back)
         	movia r12, back_addr
         	ldwio r12, 0(r12)
@@ -215,10 +241,18 @@
         	beq r12, r11, menu4
 
 		# Volta para o começo do estado caso nada tenha sido pressionado
+		movi r9, 0
+		stw r9, 0(r12) 
         	br sel4
         	
         sel5:
-       		# Lógica de verificar se o botão foi pressionado (Down)
+       		# Lógica de acender o LED específico do estado
+		movia r12, led_addr
+		ldwio r12, 0(r12)
+		movi r9, 10
+		stw r9, 0(r12)
+		
+		# Lógica de verificar se o botão foi pressionado (Down)
         	movia r12, back_addr
         	ldwio r12, 0(r12)
         	ldwio r12, 0(r12)
@@ -226,6 +260,8 @@
         	beq r12, r11, menu5
 
 		# Volta para o começo do estado caso nada tenha sido pressionado
+		movi r9, 0
+		stw r9, 0(r12) 
         	br sel5
 
 	# Label para encerrar o programa (Não utilizado pois se trata de um loop)
